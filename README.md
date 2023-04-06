@@ -16,8 +16,6 @@ A Python script that automates blocking multiple Twitter users at once
 
 ## Usage
 
-## Usage
-
 1. Clone this repository to your local machine using `git clone https://github.com/mifwar/massive-twitter-blocker.git`.
 2. Modify the `personal.txt` file and fill it with your Twitter username and password, separated by a new line.
 3. Modify the `accounts.txt` file and add the Twitter usernames of the users you want to block, one per line.
