@@ -12,7 +12,25 @@ def read_credentials(file_path):
         username, password = [line.strip() for line in file.readlines()]
     return username, password
 
+def account_exists(driver, username):
+    try:
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@data-testid='primaryColumn']"))
+        )
+        empty_state_header_text = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@data-testid='emptyState']//div[@data-testid='empty_state_header_text']"))
+        )
+        if empty_state_header_text.text == "This account doesn’t exist":
+            return False
+        else:
+            return True
+    
+    except TimeoutException:
+        return True
+
+
 def login_twitter(driver, username, password):
+
     driver.get('https://twitter.com/login')
 
     try:
@@ -42,8 +60,13 @@ def login_twitter(driver, username, password):
         print("Timeout: unable to locate login elements.")
 
 def block_user(driver, user_to_block):
+
     # Navigate to the user's profile page
     driver.get(f'https://twitter.com/{user_to_block}')
+
+    if not account_exists(driver, user_to_block):
+        print(f"{user_to_block} account does not exist")
+        return
 
     try:
         # Check if the user is already blocked
