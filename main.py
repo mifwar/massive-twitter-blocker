@@ -47,8 +47,8 @@ def block_user(driver, user_to_block):
 
     try:
         # Check if the user is already blocked
-        blocked_button = WebDriverWait(driver, 5).until(
-            EC.element_to_be_clickable((By.XPATH, "//div[@data-testid='1327952050320097280-unblock']"))
+        blocked_button = WebDriverWait(driver, 3).until(
+            EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Blocked')]"))
         )
         print(f"User {user_to_block} is already blocked.")
         return
@@ -81,14 +81,21 @@ def block_user(driver, user_to_block):
     except NoSuchElementException as e:
         print(f"Unable to block user {user_to_block}: {e}")
 
-    except TimeoutException:
-        print(f"Unable to block user {user_to_block}: Block button not found.")
 
 def block_users_from_list(file_path):
     with open(file_path, 'r') as file:
         users_to_block = [line.strip() for line in file.readlines()]
 
-    driver = webdriver.Chrome()  # Replace with your preferred browser, e.g., webdriver.Firefox()
+    with open('browser.txt', 'r') as f:
+        browser_name = f.readline().strip()
+
+    # Initialize web driver based on browser name
+    if browser_name.lower() == 'firefox':
+        driver = webdriver.Firefox()
+    elif browser_name.lower() == 'edge':
+        driver = webdriver.Edge()
+    else:  # Default to Chrome
+        driver = webdriver.Chrome()
 
     username, password = read_credentials('personal.txt')
     login_twitter(driver, username, password)
