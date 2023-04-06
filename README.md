@@ -11,7 +11,7 @@ A Python script that automates blocking multiple Twitter users at once
 
 ## Installation
 
-1. Clone this repository: `git clone https://github.com/your-username/twitter-blocker.git`
+1. Clone this repository: `git clone https://github.com/mifwar/massive-twitter-blocker.git`
 2. Install the dependencies: `pip install -r requirements.txt`
 
 ## Usage
